@@ -1,0 +1,14 @@
+[[pages]]
+path = "app.py"
+name = "Home"
+icon = "🛠️"
+
+[[pages]]
+path = "pages/01_Resume_QA.py"
+name = "Resume Q&A"
+icon = "💬"
+
+[[pages]]
+path = "pages/02_JD_Resume_Match.py"
+name = "JD ↔ Resume Match"
+icon = "🔎"

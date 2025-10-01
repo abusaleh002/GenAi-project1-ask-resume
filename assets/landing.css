@@ -1,0 +1,37 @@
+/* assets/landing.css */
+.block-container { max-width: 1100px; padding-top: 2rem; }
+
+/* HERO */
+.hero{
+  padding:28px; border-radius:18px; border:1px solid rgba(120,120,120,.18);
+  background: radial-gradient(1200px 400px at 20% 0%,
+              rgba(86,97,242,.16) 0%, rgba(86,97,242,0) 60%),
+              radial-gradient(900px 300px at 100% 0%,
+              rgba(255,171,185,.18) 0%, rgba(255,171,185,0) 60%),
+              #f8fbff;
+  margin-bottom:18px; text-align:center;
+}
+.hero .title{ display:inline-flex; align-items:center; gap:12px; }
+.hero h1{ margin:0; font-size:2.4rem; letter-spacing:.3px; }
+.hero .emoji{ font-size:1.8rem; line-height:1; }
+.hero .tagline{ color:rgba(0,0,0,.65); margin-top:8px; font-size:1.05rem; }
+
+/* Hide tiny anchor icon next to heading */
+.hero h1 a, h1 a.anchor-link { display: none !important; }
+
+/* CARDS */
+.card{
+  border:1px solid rgba(120,120,120,.18);
+  border-radius:16px; padding:18px; height:100%; background:#fff;
+}
+.card h3{ margin:2px 0 6px 0; font-size:1.35rem; }
+.card p{ color:rgba(0,0,0,.70); margin-bottom:16px; }
+
+/* Make st.page_link look like a primary button */
+.card a[href*="01_Resume_QA.py"],
+.card a[href*="02_JD_Resume_Match.py"]{
+  display:inline-block; text-decoration:none; font-weight:700;
+  padding:.60rem 1.0rem; border-radius:12px;
+  background:#3B82F6; color:#fff !important; border:1px solid #3273ea;
+}
+.card a:hover{ filter:brightness(1.03); }
