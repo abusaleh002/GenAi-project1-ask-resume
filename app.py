@@ -5,40 +5,39 @@ from dotenv import load_dotenv
 from pypdf import PdfReader
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS  # or Chroma if you switched
 from langchain.schema import Document
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from groq import Groq
 
-from groq import Groq  # free LLM API
-
-# Load local .env if present
 load_dotenv()
 
 def get_secret(name: str, default: str = "") -> str:
-    """
-    Read a secret from Streamlit Cloud (st.secrets) if available,
-    otherwise fall back to OS environment variables.
-    Prevents StreamlitSecretNotFoundError when no secrets file exists locally.
-    """
+    # Works with Streamlit Cloud secrets and local env/.env
     try:
         return st.secrets[name]
     except Exception:
         return os.getenv(name, default)
 
-st.set_page_config(page_title="Ask My Resume (PDF) Chatbot", page_icon="💬")
-st.title("💬 Ask My Resume (PDF) Chatbot — Free Stack")
+st.set_page_config(page_title="Upload Your Resume & Ask about your Resume (PDF) Chatbot", page_icon="💬")
+st.title("💬 Ask Your Resume (PDF) Chatbot — Free Stack")
 st.caption("Local embeddings (sentence-transformers) + Groq Llama-3.1 (free). No OpenAI needed.")
 
-# Sidebar settings
 with st.sidebar:
     st.header("Settings")
-    default_groq = get_secret("GROQ_API_KEY", "")
-    groq_key = st.text_input(
-        "Groq API Key",
-        value=default_groq,
-        type="password",
-        help="Create one at console.groq.com/keys (free tier)."
-    )
+
+    # 👉 If a server-side secret exists, use it and hide the input.
+    key_from_secret = get_secret("GROQ_API_KEY", "")
+    if key_from_secret:
+        groq_key = key_from_secret
+        st.caption("Using server-side key (demo mode).")
+    else:
+        groq_key = st.text_input(
+            "Groq API Key",
+            type="password",
+            help="Create one at https://console.groq.com/keys (free tier)."
+        )
+
     model = st.text_input(
         "Model name",
         value="llama-3.1-8b-instant",
@@ -60,7 +59,6 @@ uploaded = st.file_uploader("Upload a PDF (resume, paper, etc.)", type=["pdf"])
 
 @st.cache_resource(show_spinner=False)
 def build_index(pdf_bytes: bytes, embed_model_name: str, k: int):
-    # 1) Extract text
     reader = PdfReader(io.BytesIO(pdf_bytes))
     pages = []
     for i, page in enumerate(reader.pages):
@@ -73,33 +71,26 @@ def build_index(pdf_bytes: bytes, embed_model_name: str, k: int):
     if not pages:
         raise ValueError("No extractable text found in the PDF (is it scanned?).")
 
-    # 2) Chunk
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
     docs = []
     for pageno, text in pages:
         for chunk in splitter.split_text(text):
             docs.append(Document(page_content=chunk, metadata={"page": pageno}))
 
-    # 3) Local embeddings (CPU by default)
     embeddings = HuggingFaceEmbeddings(
         model_name=embed_model_name,
-        model_kwargs={"device": "cpu"}  # set "cuda" if you have a GPU
+        model_kwargs={"device": "cpu"}
     )
 
-    # 4) Vector index
-    vs = FAISS.from_documents(docs, embeddings)
-
-    # 5) Retriever
+    vs = FAISS.from_documents(docs, embeddings)  # or Chroma.from_documents(...)
     return vs.as_retriever(search_kwargs={"k": k})
 
 def answer_with_rag(groq_client: Groq, retriever, question: str, model: str, temperature: float):
-    # Retrieve relevant chunks
     docs = retriever.get_relevant_documents(question)
     sources_text = "\n\n".join(
         [f"[Page {d.metadata.get('page', '?')}] {d.page_content}" for d in docs]
     )
 
-    # Grounded prompt
     system = (
         "You are a helpful assistant that answers strictly using the provided context. "
         "If the answer is not in the context, say: 'I couldn't find that in the PDF.'"
@@ -120,7 +111,6 @@ def answer_with_rag(groq_client: Groq, retriever, question: str, model: str, tem
     )
     return chat.choices[0].message.content, docs
 
-# Main app flow
 if uploaded:
     try:
         retriever = build_index(uploaded.read(), embed_model_name=embed_model, k=k)
