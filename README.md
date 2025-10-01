@@ -1,3 +1,4 @@
+# Generative Artificial Intelligence - Chatbot
 # Project 1 — Upload and Ask about Your Resume (PDF) Chatbot
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge.svg)](https://genai-project1-ask-resume-rbyksdwddtvtaw4wshmsvb.streamlit.app)
