@@ -6,3 +6,15 @@ __pycache__/
 .DS_Store
 .streamlit/secrets.toml
 .chroma/          # if you later persist Chroma locally
+
+# local only
+.env
+.venv/
+.streamlit/secrets.toml
+__pycache__/
+.DS_Store
+.env
+.venv/
+.streamlit/secrets.toml
+__pycache__/
+.DS_Store
