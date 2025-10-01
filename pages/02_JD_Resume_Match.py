@@ -1,6 +1,8 @@
 # pages/02_JD_Resume_Match.py
 import streamlit as st
 from lib.core import make_groq
+from datetime import datetime
+
 
 st.set_page_config(page_title="JD ↔ Resume Match", page_icon="🔎", layout="wide")
 st.title("🔎 JD ↔ Resume Match")
@@ -45,3 +47,5 @@ Resume:
         )
     st.subheader("Result")
     st.write(res.choices[0].message.content)
+
+st.caption(f"© {datetime.now().year} • Created by **Abu Saleh**")

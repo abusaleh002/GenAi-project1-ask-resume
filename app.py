@@ -1,6 +1,7 @@
 # app.py — Home / Landing page
 import streamlit as st
 from lib.ui import inject_css
+from datetime import datetime
 
 # Page config
 st.set_page_config(page_title="GenAI Tools", page_icon="🛠️", layout="wide")
@@ -54,3 +55,5 @@ with col2:
 
 st.divider()
 st.caption("Tip: Add more tools by creating new files in the `pages/` folder.")
+
+st.caption(f"© {datetime.now().year} • Created by **Abu Saleh**")

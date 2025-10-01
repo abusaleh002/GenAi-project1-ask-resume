@@ -2,6 +2,7 @@ import os, io, httpx
 import streamlit as st
 from dotenv import load_dotenv
 from pypdf import PdfReader
+from datetime import datetime
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -128,3 +129,5 @@ if uploaded:
 else:
     with st.container(border=True):
         st.info("Upload a PDF to begin. Tip: try your resume first!")
+
+st.caption(f"© {datetime.now().year} • Created by **Abu Saleh**")
