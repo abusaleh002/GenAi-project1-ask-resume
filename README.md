@@ -2,12 +2,11 @@
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge.svg)](https://genai-project1-ask-resume-rbyksdwddtvtaw4wshmsvb.streamlit.app)
 
-Upload a PDF (resume or paper) and ask grounded questions about it.  
-Local sentence-transformer embeddings + **Groq Llama-3.1** for answers.
+Local sentence-transformer embeddings + **Groq Llama-3.1** for grounded answers.  
+**Live demo:** https://genai-project1-ask-resume-rbyksdwddtvtaw4wshmsvb.streamlit.app
 
-> **Live demo:** https://genai-project1-ask-resume-rbyksdwddtvtaw4wshmsvb.streamlit.app
+> **Privacy:** demo is for non-sensitive PDFs. Scanned PDFs without text extraction may not work (no OCR).
 
----
 
 ## Requirements
 - **Python 3.11** (pinned on Cloud via `runtime.txt`)
@@ -28,30 +27,25 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
-macOS / Linux
-git clone https://github.com/abusaleh002/GenAi-project1-ask-resume.git
-cd GenAi-project1-ask-resume
-
+# macOS / Linux
 python3 -m venv .venv
 source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
 
+# Windows (PowerShell)
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
 
 Configure the key (pick one)
-A) .streamlit/secrets.toml (recommended)
+# .streamlit/secrets.toml
 GROQ_API_KEY = "sk_XXXXXXXXXXXXXXXXXXXXXXXX"
 
-B) .env
+# .env
 GROQ_API_KEY=sk_XXXXXXXXXXXXXXXXXXXXXXXX
-
-C) Environment variable
-# PowerShell (persistent)
-setx GROQ_API_KEY "sk_XXXXXXXXXXXXXXXXXXXXXXXX"
-
-# Bash (current shell)
-export GROQ_API_KEY="sk_XXXXXXXXXXXXXXXXXXXXXXXX"
 
 Run
 streamlit run app.py
@@ -125,17 +119,11 @@ Scanned PDFs → current version doesn’t do OCR; text extraction may fail.
 
 </details>
 
-Tech stack
+T## Tech stack
+Streamlit • LangChain • sentence-transformers • FAISS/Chroma • **Groq (Llama-3.1)**
 
-Streamlit • LangChain • sentence-transformers • FAISS/Chroma • Groq (Llama-3.1)
-
-
-License
-
-This project is licensed under the MIT License. See LICENSE
-for details.
-
-If you want me to swap the demo URL for a shorter custom slug (e.g., `https://ask-my-resume-abu.streamlit.app`), tell me the slug and I’ll regenerate this with the new link.
+## License
+MIT — see [LICENSE](./LICENSE).
 
 
 
