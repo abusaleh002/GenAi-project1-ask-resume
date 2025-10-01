@@ -16,17 +16,6 @@ Local sentence-transformer embeddings + **Groq Llama-3.1** for grounded answers.
 
 ## Quickstart (local)
 
-### Windows (PowerShell)
-```bash
-git clone https://github.com/abusaleh002/GenAi-project1-ask-resume.git
-cd GenAi-project1-ask-resume
-
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-
 # macOS / Linux
 python3 -m venv .venv
 source .venv/bin/activate
@@ -40,12 +29,12 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 
 
-Configure the key (pick one)
 # .streamlit/secrets.toml
 GROQ_API_KEY = "sk_XXXXXXXXXXXXXXXXXXXXXXXX"
 
 # .env
 GROQ_API_KEY=sk_XXXXXXXXXXXXXXXXXXXXXXXX
+
 
 Run
 streamlit run app.py
@@ -119,7 +108,7 @@ Scanned PDFs → current version doesn’t do OCR; text extraction may fail.
 
 </details>
 
-T## Tech stack
+## Tech stack
 Streamlit • LangChain • sentence-transformers • FAISS/Chroma • **Groq (Llama-3.1)**
 
 ## License
